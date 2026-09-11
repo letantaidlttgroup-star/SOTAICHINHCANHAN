@@ -5,7 +5,7 @@ import { db, newId, type BudgetPeriod, type Category } from '../db/db';
 import { budgetProgress } from '../db/cashflow';
 import { money } from '../lib/format';
 import { IconBtn } from '../components/ui';
-import { Sheet, SaveBtn, inputCls } from '../components/sheet';
+import { Sheet, SaveBtn, inputCls, MoneyInput } from '../components/sheet';
 
 const PERIODS: { p: BudgetPeriod; label: string }[] = [
   { p: 'weekly', label: 'Tuần' }, { p: 'monthly', label: 'Tháng' },
@@ -104,7 +104,7 @@ function BudgetForm({ open, cats, onClose, onToast }: { open: boolean; cats: Cat
     <Sheet open={open} onClose={close} title="Thêm ngân sách">
       <label className="text-[12px] text-mut -mb-2">Hạng mục</label>
       <CatPicker cats={cats} value={catId} onChange={(id, nm) => { setCatId(id); if (!name) setName(nm); }} />
-      <input className={inputCls} inputMode="numeric" placeholder="Hạn mức (VND)" value={limit} onChange={(e) => setLimit(e.target.value)} />
+      <MoneyInput value={limit} onChange={setLimit} placeholder="Hạn mức (VND)" className={inputCls} />
       <div className="text-right -mt-1 text-[12px] text-mut tnum">{money(num)} ₫</div>
       <label className="text-[12px] text-mut -mb-2">Chu kỳ</label>
       <PeriodPicker value={period} onChange={setPeriod} />
@@ -135,7 +135,7 @@ function BudgetEdit({ budgetId, cats, onClose, onToast }: { budgetId: string | n
     <Sheet open onClose={() => { setLoaded(null); onClose(); }} title="Sửa ngân sách">
       <label className="text-[12px] text-mut -mb-2">Hạng mục</label>
       <CatPicker cats={cats} value={catId} onChange={(id) => setCatId(id)} />
-      <input className={inputCls} inputMode="numeric" placeholder="Hạn mức (VND)" value={limit} onChange={(e) => setLimit(e.target.value)} />
+      <MoneyInput value={limit} onChange={setLimit} placeholder="Hạn mức (VND)" className={inputCls} />
       <div className="text-right -mt-1 text-[12px] text-mut tnum">{money(num)} ₫</div>
       <label className="text-[12px] text-mut -mb-2">Chu kỳ</label>
       <PeriodPicker value={period} onChange={setPeriod} />

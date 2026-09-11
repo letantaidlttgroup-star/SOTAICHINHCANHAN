@@ -39,3 +39,24 @@ export function SaveBtn({ enabled, onClick, label }: { enabled: boolean; onClick
 
 export const inputCls = 'w-full bg-surface2 border border-line rounded-[12px] px-3 py-[11px] text-[14px] text-ink outline-none';
 export const SWATCHES = ['#8A8F98', '#6E8FB0', '#4FB286', '#C98A5A', '#C9A96A', '#A98FC9', '#C98AA8', '#E0705E'];
+
+export function MoneyInput({ value, onChange, placeholder, allowNegative = false, className }: {
+  value: string; onChange: (raw: string) => void; placeholder?: string; allowNegative?: boolean; className?: string;
+}) {
+  const neg = allowNegative && String(value).trim().startsWith('-');
+  const digits = String(value).replace(/[^\d]/g, '');
+  const display = digits ? (neg ? '-' : '') + Number(digits).toLocaleString('vi-VN') : (neg ? '-' : '');
+  return (
+    <input
+      value={display}
+      inputMode="numeric"
+      placeholder={placeholder}
+      className={className ?? inputCls}
+      onChange={(e) => {
+        const isNeg = allowNegative && e.target.value.trim().startsWith('-');
+        const d = e.target.value.replace(/[^\d]/g, '');
+        onChange((isNeg ? '-' : '') + d);
+      }}
+    />
+  );
+}

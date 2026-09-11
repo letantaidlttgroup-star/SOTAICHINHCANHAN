@@ -10,6 +10,7 @@ import { applyReferences } from '../lib/reference';
 import { isMarketPriced } from '../db/db';
 import { money, vnd } from '../lib/format';
 import { IconBtn, Spark } from './ui';
+import { MoneyInput } from './sheet';
 
 const UNIT_LABEL: Record<string, string> = {
   chi: 'chỉ', luong: 'lượng', gram: 'g', carat: 'ct', share: 'cp', unit: 'đv',
@@ -84,9 +85,7 @@ export function AssetDetail({ asset, onClose }: { asset: Asset | null; onClose: 
         <div className="mt-4">
           <div className="text-[12.5px] text-mut mb-2">Cập nhật giá hiện tại / đơn vị</div>
           <div className="flex gap-2">
-            <input value={px} onChange={(e) => setPx(e.target.value)} inputMode="numeric"
-              placeholder="Nhập giá mới (VND)"
-              className="flex-1 bg-surface2 border border-line rounded-[12px] px-3 py-[11px] text-[14px] text-ink outline-none" />
+            <MoneyInput value={px} onChange={setPx} placeholder="Nhập giá mới (VND)" className="flex-1 bg-surface2 border border-line rounded-[12px] px-3 py-[11px] text-[14px] text-ink outline-none" />
             <button onClick={saveManualPrice} disabled={pxNum <= 0}
               className="px-4 rounded-[12px] border-0 text-[13.5px] font-semibold"
               style={{ background: pxNum > 0 ? 'var(--grad-gold)' : 'var(--surface2)', color: pxNum > 0 ? '#20160C' : 'var(--faint)' }}>
@@ -99,8 +98,7 @@ export function AssetDetail({ asset, onClose }: { asset: Asset | null; onClose: 
           <div className="mt-3">
             <div className="text-[12.5px] text-mut mb-2">Biên độ ± so với giá tham chiếu (đ/đơn vị)</div>
             <div className="flex gap-2">
-              <input value={offset} onChange={(e) => setOffset(e.target.value)} inputMode="numeric" placeholder="vd -500000 (vàng nhẫn thấp hơn)"
-                className="flex-1 bg-surface2 border border-line rounded-[12px] px-3 py-[11px] text-[14px] text-ink outline-none" />
+              <MoneyInput value={offset} onChange={setOffset} allowNegative placeholder="vd -500000 (vàng nhẫn thấp hơn)" className="flex-1 bg-surface2 border border-line rounded-[12px] px-3 py-[11px] text-[14px] text-ink outline-none" />
               <button onClick={saveOffset} className="px-4 rounded-[12px] border-0 text-[13.5px] font-semibold" style={{ background: 'var(--grad-gold)', color: '#20160C' }}>Áp giá</button>
             </div>
           </div>

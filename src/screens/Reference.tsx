@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, RefreshCw, Coins, CircleDollarSign } from 'lucide-react';
 import { IconBtn } from '../components/ui';
-import { inputCls } from '../components/sheet';
+import { inputCls, MoneyInput } from '../components/sheet';
 import { money } from '../lib/format';
 import {
   getGoldRefPerLuong, getSilverRefPerKg, setGoldRefPerLuong, setSilverRefPerKg,
@@ -41,7 +41,7 @@ export function Reference({ onBack, onToast }: { onBack: () => void; onToast: (m
           </span>
           <div><div className="text-[14px] font-semibold">Vàng (BTMC)</div><div className="text-[11.5px] text-mut">đồng / lượng · {ago(gTs)}</div></div>
         </div>
-        <input className={inputCls} inputMode="numeric" placeholder="Giá vàng SJC (đ/lượng)" value={gold} onChange={(e) => setGold(e.target.value)} />
+        <MoneyInput value={gold} onChange={setGold} placeholder="Giá vàng (đ/lượng)" className={inputCls} />
         {gNum > 0 && <div className="text-[12px] text-mut mt-1 tnum">≈ {money(gNum / 10)} đ/chỉ</div>}
         <div className="flex gap-2 mt-3">
           <button onClick={fetchGold} disabled={busy === 'gold'} className="flex-1 py-[11px] rounded-[12px] border border-line bg-surface text-ink text-[13.5px] font-medium flex items-center justify-center gap-2">
@@ -59,7 +59,7 @@ export function Reference({ onBack, onToast }: { onBack: () => void; onToast: (m
           </span>
           <div><div className="text-[14px] font-semibold">Bạc Ancarat (1 kg)</div><div className="text-[11.5px] text-mut">đồng / kg · {ago(sTs)}</div></div>
         </div>
-        <input className={inputCls} inputMode="numeric" placeholder="Giá bạc Ancarat (đ/kg)" value={silver} onChange={(e) => setSilver(e.target.value)} />
+        <MoneyInput value={silver} onChange={setSilver} placeholder="Giá bạc Ancarat (đ/kg)" className={inputCls} />
         {sNum > 0 && <div className="text-[12px] text-mut mt-1 tnum">≈ {money(sNum / 1000)} đ/gram</div>}
         <div className="flex gap-2 mt-3">
           <button onClick={fetchSilver} disabled={busy === 'silver'} className="flex-1 py-[11px] rounded-[12px] border border-line bg-surface text-ink text-[13.5px] font-medium flex items-center justify-center gap-2">

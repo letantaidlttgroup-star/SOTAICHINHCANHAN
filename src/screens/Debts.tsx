@@ -7,6 +7,7 @@ import {
 import { debtViews, recordDebtPayment } from '../db/debts';
 import { money, vnd, daysFromNow } from '../lib/format';
 import { IconBtn } from '../components/ui';
+import { MoneyInput } from '../components/sheet';
 
 export function Debts({ onBack, onToast }: { onBack: () => void; onToast: (m: string) => void }) {
   const views = useLiveQuery(() => debtViews({ includeSettled: true }), [], []);
@@ -153,7 +154,7 @@ function DebtForm({ open, initialDir, onClose, onToast }: {
         ))}
       </div>
       <input className={inputCls} placeholder={dir === 'iOwe' ? 'Vay của ai?' : 'Ai vay mình?'} value={who} onChange={(e) => setWho(e.target.value)} />
-      <input className={inputCls} inputMode="numeric" placeholder="Số tiền (VND)" value={amount} onChange={(e) => setAmount(e.target.value)} />
+      <MoneyInput value={amount} onChange={setAmount} placeholder="Số tiền (VND)" className={inputCls} />
       <div className="text-right -mt-1 text-[12px] text-mut tnum">{money(num)} ₫</div>
       <label className="text-[12px] text-mut -mb-2">Ngày vay/cho vay</label>
       <input className={inputCls} type="date" value={start} onChange={(e) => setStart(e.target.value)} />
@@ -218,8 +219,7 @@ function DebtDetail({ debtId, onClose, onToast }: {
 
         {!debt.isSettled && (
           <div className="flex gap-2 mt-4">
-            <input className={inputCls} inputMode="numeric"
-              placeholder={debt.direction === 'iOwe' ? 'Số tiền trả' : 'Số tiền thu'} value={pay} onChange={(e) => setPay(e.target.value)} />
+            <MoneyInput value={pay} onChange={setPay} placeholder={debt.direction === 'iOwe' ? 'Số tiền trả' : 'Số tiền thu'} className={inputCls} />
             <button onClick={doPay} disabled={num <= 0}
               className="px-4 rounded-[12px] border-0 text-[13.5px] font-semibold"
               style={{ background: num > 0 ? 'var(--grad-gold)' : 'var(--surface2)', color: num > 0 ? '#20160C' : 'var(--faint)' }}>

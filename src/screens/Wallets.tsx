@@ -6,7 +6,7 @@ import { walletBalances } from '../db/cashflow';
 import { WALLET_ICON } from '../lib/walletIcons';
 import { vnd } from '../lib/format';
 import { IconBtn } from '../components/ui';
-import { Sheet, SaveBtn, inputCls, SWATCHES } from '../components/sheet';
+import { Sheet, SaveBtn, inputCls, SWATCHES, MoneyInput } from '../components/sheet';
 
 export function Wallets({ onBack, onToast }: { onBack: () => void; onToast: (m: string) => void }) {
   const balances = useLiveQuery(() => walletBalances(), [], []);
@@ -101,7 +101,7 @@ function WalletForm({ open, onClose, onToast }: { open: boolean; onClose: () => 
       <label className="text-[12px] text-mut -mb-2">Loại</label>
       <TypePicker value={type} onChange={setType} />
       <input className={inputCls} placeholder={type === 'cash' ? 'Tên (vd Tiền mặt)' : type === 'bank' ? 'Tên ngân hàng (vd Vietcombank)' : 'Tên ví'} value={name} onChange={(e) => setName(e.target.value)} />
-      <input className={inputCls} inputMode="numeric" placeholder="Số dư hiện tại (VND)" value={bal} onChange={(e) => setBal(e.target.value)} />
+      <MoneyInput value={bal} onChange={setBal} allowNegative placeholder="Số dư hiện tại (VND)" className={inputCls} />
       <label className="text-[12px] text-mut -mb-1">Màu</label>
       <ColorPicker value={color} onChange={setColor} />
       <SaveBtn enabled={!!name.trim()} onClick={save} label="Lưu ví" />
@@ -137,7 +137,7 @@ function WalletEdit({ walletId, onClose, onToast }: { walletId: string | null; o
       <TypePicker value={type} onChange={setType} />
       <input className={inputCls} placeholder="Tên" value={name} onChange={(e) => setName(e.target.value)} />
       <label className="text-[12px] text-mut -mb-2">Số dư khởi tạo (số dư hiện tại sẽ tính thêm giao dịch)</label>
-      <input className={inputCls} inputMode="numeric" value={bal} onChange={(e) => setBal(e.target.value)} />
+      <MoneyInput value={bal} onChange={setBal} allowNegative className={inputCls} />
       <label className="text-[12px] text-mut -mb-1">Màu</label>
       <ColorPicker value={color} onChange={setColor} />
       <SaveBtn enabled onClick={save} label="Lưu thay đổi" />

@@ -8,6 +8,7 @@ import {
 import { sinkingViews } from '../db/sinking';
 import { money, vnd, daysFromNow } from '../lib/format';
 import { IconBtn } from '../components/ui';
+import { MoneyInput } from '../components/sheet';
 
 export function Sinking({ onBack, onToast }: { onBack: () => void; onToast: (m: string) => void }) {
   const views = useLiveQuery(() => sinkingViews(true), [], []);
@@ -112,7 +113,7 @@ function SinkingForm({ open, onClose, onToast }: { open: boolean; onClose: () =>
   return (
     <Sheet open={open} onClose={close} title="Thêm quỹ tích lũy">
       <input className={inputCls} placeholder="Tên quỹ (vd Bảo hiểm, Thuế, Du lịch...)" value={name} onChange={(e) => setName(e.target.value)} />
-      <input className={inputCls} inputMode="numeric" placeholder="Số tiền cần đủ (VND)" value={target} onChange={(e) => setTarget(e.target.value)} />
+      <MoneyInput value={target} onChange={setTarget} placeholder="Số tiền cần đủ (VND)" className={inputCls} />
       <div className="text-right -mt-1 text-[12px] text-mut tnum">{money(num)} ₫</div>
       <label className="text-[12px] text-mut -mb-2">Ngày cần đủ tiền</label>
       <input className={inputCls} type="date" value={due} onChange={(e) => setDue(e.target.value)} />
@@ -179,7 +180,7 @@ function SinkingDetail({ fundId, onClose, onToast }: { fundId: string | null; on
 
         {fund.isActive && (
           <div className="flex gap-2 mt-4">
-            <input className={inputCls} inputMode="numeric" placeholder="Số tiền để dành" value={add} onChange={(e) => setAdd(e.target.value)} />
+            <MoneyInput value={add} onChange={setAdd} placeholder="Số tiền để dành" className={inputCls} />
             <button onClick={contribute} disabled={num <= 0} className="px-4 rounded-[12px] border-0 text-[13.5px] font-semibold"
               style={{ background: num > 0 ? 'var(--grad-gold)' : 'var(--surface2)', color: num > 0 ? '#20160C' : 'var(--faint)' }}>Ghi nhận</button>
           </div>

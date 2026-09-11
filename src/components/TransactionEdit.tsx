@@ -4,6 +4,7 @@ import { X, Trash2 } from 'lucide-react';
 import { db, type Transaction, type TransactionKind } from '../db/db';
 import { money } from '../lib/format';
 import { IconBtn } from './ui';
+import { MoneyInput } from './sheet';
 
 export function TransactionEdit({ txn, onClose, onToast }: {
   txn: Transaction | null; onClose: () => void; onToast: (m: string) => void;
@@ -78,8 +79,7 @@ export function TransactionEdit({ txn, onClose, onToast }: {
             ))}
           </div>
 
-          <input className={inputCls} inputMode="numeric" placeholder="Số tiền"
-            value={amount} onChange={(e) => setAmount(e.target.value)} />
+          <MoneyInput value={amount} onChange={setAmount} placeholder="Số tiền" />
           <div className="text-right -mt-1 text-[12px] text-mut tnum">{money(num)} ₫</div>
 
           {kind !== 'transfer' ? (

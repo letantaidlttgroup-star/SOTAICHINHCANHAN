@@ -6,6 +6,7 @@ import {
   type AssetClass, type QuantityUnit, type MetalType,
 } from '../db/db';
 import { IconBtn } from './ui';
+import { MoneyInput } from './sheet';
 
 const UNITS: { u: QuantityUnit; label: string }[] = [
   { u: 'unit', label: 'đơn vị' }, { u: 'share', label: 'cổ phiếu' },
@@ -107,12 +108,9 @@ export function AssetForm({ open, onClose, onSaved }: {
             </select>
           </div>
 
-          <input className={inputCls} inputMode="numeric" placeholder="Giá vốn / đơn vị (VND)"
-            value={cost} onChange={(e) => setCost(e.target.value)} />
+          <MoneyInput value={cost} onChange={setCost} placeholder="Giá vốn / đơn vị (VND)" />
 
-          <input className={inputCls} inputMode="numeric"
-            placeholder={market ? 'Giá thị trường hiện tại / đơn vị (VND)' : 'Giá trị hiện tại / đơn vị (VND)'}
-            value={curVal} onChange={(e) => setCurVal(e.target.value)} />
+          <MoneyInput value={curVal} onChange={setCurVal} placeholder={market ? 'Giá thị trường hiện tại / đơn vị (VND)' : 'Giá trị hiện tại / đơn vị (VND)'} />
 
           {market && (
             <input className={inputCls} placeholder="Mã lấy giá (vd FPT, BTC, SJC)"
@@ -131,7 +129,7 @@ export function AssetForm({ open, onClose, onSaved }: {
                 })}
               </div>
               <input className={inputCls} placeholder="Tuổi vàng / độ tinh khiết (vd 9999, 24K)" value={purity} onChange={(e) => setPurity(e.target.value)} />
-              <input className={inputCls} inputMode="numeric" placeholder="Biên độ ± so với giá tham chiếu (đ/đơn vị, có thể để trống)" value={offset} onChange={(e) => setOffset(e.target.value)} />
+              <MoneyInput value={offset} onChange={setOffset} allowNegative placeholder="Biên độ ± (đ/đơn vị, có thể để trống)" />
               <div className="text-[11.5px] text-faint -mt-1">Để trống nếu bằng đúng giá tham chiếu. Nhập số âm nếu thấp hơn (vd vàng nhẫn).</div>
             </>
           )}
